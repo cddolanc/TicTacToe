@@ -1,52 +1,54 @@
 #------Global variables---------
 
-# Game Board
+# Game Board - This is the initial values of the gameboard, # is used at position 0 as it caused 
+# problems while checking for a tie in check_tie().
 board = ["#", "-", "-", "-",
               "-", "-","-",
               "-", "-", "-"]
 
 
-# If game is still going        
+# If game is still going  - Boolean to check against if the game is on-going.
 game_continues = True
 
-# Won or Tie?
+# Won or Tie?   - Winner is initally set to None.
 winner = None
 
 
 
-# Whos turn is it?
+# Whos turn is it?  - Initial value for current_player, changed when flip_player is called.
 current_player = 'X'
 
        
 
-# The game........................
+# The game...................... The main steps called during the game.
 def play_game():
     #print('Welcome To Tic-Tac-Toe!')
-    # Display initial board
+
+    # Display initial board - display the board (each square called from board[]).
     display_board()
     
 
-    #While the game continues.....
+    #While the game continues.....  -  a While loop calling each function until a winner or draw is declared.
     while game_continues:
         
-        # Handle the turn of the current player
+        # Handle the turn of the current player - current_player = 'X' is the initial value assigned.
         handle_turn(current_player)
         
-        # Check if the game is over
+        # Check if the game is over  - If the game has more turns or not.
         check_game_over()
 
-        # Flip to the other player
+        # Flip to the other player  - if 'X' then 'O'.
         flip_player()
 
-    # The Game has ended
+    # The Game has ended  - What happens when game is won or a draw.
     if winner == 'X' or winner == 'O':
         print(winner + ' won.')
     elif winner == None:
         print('The Game Is A Tie.')
 
-
-def display_board():
-    bright_yellow = "\033[0;93m"
+# This is the board given to us in class, I've added colours to make the game board clearer.
+def display_board():  
+    bright_yellow = "\033[0;93m"      # This is a variable used for calling the colour.
     green = "\033[0;32m"
     print(green  + '     |     |')
     print(green  + '7: ' + bright_yellow +  board[7] + green  +' |8: '+ bright_yellow  + board[8] + green  +' |9: '+ bright_yellow + board[9])
@@ -60,11 +62,16 @@ def display_board():
     print(green  + '1: ' + bright_yellow +  board[1] + green  +' |2: '+ bright_yellow  + board[2] + green  +' |3: '+ bright_yellow + board[3])
     print(green  + '     |     |')
 
+# This function handles each player turn.
 def handle_turn(player):
-
+    
+    # Declare who's turn it is.
     print(player + "'s turn.")
+
+    # Get an input from the player for the square number.
     position = input('Choose a position from 1-9: ')
     
+    #This While loop checks if the input is valid and checks if the square is empty.
     valid = False
     while not valid:
 
@@ -76,17 +83,19 @@ def handle_turn(player):
         if board[position] == "-":
             valid = True
         else:
-            print("You can choose that one, try again: ")
+            print("You can't choose that one, try again: ")
 
+    # Sets the player's position on the board.
     board[position] = player
+    # Calls the display_board function.
     display_board()
 
-
+# Check if the game is over, by calling check_win and check_tie functions.
 def check_game_over():
     check_win()
     check_tie()
 
-
+# Check if there is a winner
 def check_win():
 
     global winner
@@ -100,6 +109,7 @@ def check_win():
     # check diagonals
     diagonal_winner = check_diagonals()
 
+    # If a winner is declared or not.
     if row_winner:
         winner = row_winner
 
@@ -126,7 +136,7 @@ def check_rows():
     if row_1 or row_2 or row_3:
         game_continues = False
     
-    # return the winner (X or O)
+    # return the winner (X or O), depending on the value in board[].
     if row_1:
         return board[7]
     elif row_2:
@@ -150,7 +160,7 @@ def check_columns():
     if column_1 or column_2 or column_3:
         game_continues = False
 
-    # # return the winner (X or O)
+    # Return the winner (X or O), depending on the value in board[].
     if column_1:
         return board[1]
     elif column_2:
@@ -159,7 +169,7 @@ def check_columns():
         return board[3]
     return
 
-
+# Check for a diagonal winner.
 def check_diagonals():
     # set global variable
     global game_continues
@@ -167,11 +177,11 @@ def check_diagonals():
     diagonal_1 = board[1] == board[5] == board[9] != '-'
     diagonal_2 = board[3] == board[5] == board[7] != '-'
     
-    # if diagonal has a match, then flag there is a winner
+    # if diagonal has a match, then flag there is a winner.
     if diagonal_1 or diagonal_2:
         game_continues = False
 
-    # return the winner (X or O)
+    # return the winner (X or O), depending on the value in board[].
     if diagonal_1:
         return board[1]
     elif diagonal_2:
@@ -179,7 +189,7 @@ def check_diagonals():
     
     return
 
-
+# Checks if there are any more free spaces in the board, by checking for '-'.
 def check_tie():
     global game_continues
     if "-" not in board:
@@ -187,10 +197,11 @@ def check_tie():
         
     return
 
-
-def flip_player():
+# This function flips from 'X' to 'O' or 'O' to 'X'.
+def flip_player():  
     # global variable we need
     global current_player
+    
     # If current player was X, change to O
     if current_player == "X":
         current_player = "O"
@@ -200,10 +211,10 @@ def flip_player():
     return
 
 
-
+# Call the game function - Start the game.
 play_game()
 
-
+#checklist:
 # board
 # display board
 # play game
