@@ -2,8 +2,8 @@
 
 # Game Board
 board = ["#", "-", "-", "-",
-            "-", "-","-",
-             "-", "-", "-"]
+              "-", "-","-",
+              "-", "-", "-"]
 
 
 # If game is still going        
@@ -13,11 +13,11 @@ game_continues = True
 winner = None
 
 
+
 # Whos turn is it?
-def current_player():
-    current_player = input('Welcome To Tic-Tac-Toe!\n Please choose X or O: ').upper()
-    if current_player != 'X' or current_player != 'O':
-        current_player = False
+current_player = 'X'
+
+       
 
 # The game........................
 def play_game():
